@@ -5,7 +5,7 @@
 export const BUSINESS_NAME = "Silver Sand Beach Homestay";
 export const BUSINESS_PLACE = "Murudeshwar, Karnataka, India";
 export const SITE_HOST = "silversandhomestay.com";
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? `https://${SITE_HOST}`;
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || `https://${SITE_HOST}`;
 
 export const DISPLAY_PHONE = "+91 99862 22892";
 export const PHONE_E164 = "+919986222892";
