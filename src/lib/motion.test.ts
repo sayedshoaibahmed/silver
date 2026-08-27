@@ -27,13 +27,10 @@ test("homepage hero does not delay the booking widget", () => {
     join(process.cwd(), "src/components/sections/hero-section.tsx"),
     "utf8",
   );
-  const widgetIndex = hero.indexOf("<BookingWidget");
-  assert.ok(widgetIndex > 0);
-  const beforeWidget = hero.slice(0, widgetIndex);
-  const lastSticky = beforeWidget.lastIndexOf("lg:sticky");
-  const afterSticky = hero.slice(lastSticky, widgetIndex);
-  assert.doesNotMatch(afterSticky, /hero-copy/);
-  assert.doesNotMatch(afterSticky, /hero-media/);
+  // BookingWidget now lives in page.tsx, not inside the hero overlay.
+  // The hero should NOT contain BookingWidget (would delay it behind a parallax layer).
+  assert.doesNotMatch(hero, /<BookingWidget/);
+  // Hero must not wrap its content in RevealOnScroll
   assert.doesNotMatch(hero, /RevealOnScroll/);
 });
 
@@ -41,16 +38,10 @@ test("scroll reveals are homepage-only wrappers, not baked into sections", () =>
   const home = readFileSync(join(process.cwd(), "src/app/(public)/page.tsx"), "utf8");
   assert.ok(home.includes("RevealOnScroll"));
   assert.match(home, /RevealOnScroll>\s*\n\s*<RoomPricingSection/);
-  assert.match(home, /RevealOnScroll>\s*\n\s*<PhotosSection/);
-  assert.match(home, /RevealOnScroll>\s*\n\s*<AboutSection/);
-  assert.match(home, /RevealOnScroll>\s*\n\s*<NearbyAttractionsSection/);
   assert.match(home, /RevealOnScroll>\s*\n\s*<FaqSection/);
 
   for (const file of [
     "src/components/sections/room-pricing-section.tsx",
-    "src/components/sections/photos-section.tsx",
-    "src/components/sections/about-section.tsx",
-    "src/components/sections/nearby-attractions-section.tsx",
     "src/components/sections/faq-section.tsx",
   ]) {
     const source = readFileSync(join(process.cwd(), file), "utf8");

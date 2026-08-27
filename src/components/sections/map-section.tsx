@@ -1,4 +1,3 @@
-import Link from "next/link";
 
 import type { SectionBand } from "@/components/layout/section";
 import { Container } from "@/components/layout/container";
@@ -31,22 +30,21 @@ export function MapSection({ showLocationLink = true, band }: MapSectionProps) {
           </Heading>
           <Text tone="muted">
             We&apos;re at {FULL_ADDRESS}, {LANDMARK_BUS_STAND}. Murdeshwar Railway
-            Station (MRDW) on the Konkan Railway is the nearest station — trains from
-            Mangalore, Goa, and Mumbai stop here. Hubli is about 160 km east. Autos and
-            taxis run from the station.
+            Station (MRDW) is the nearest train station.
           </Text>
           <Text size="sm" tone="muted">
-            The map shows our location. You can also{" "}
+            The map shows our location.
+          </Text>
+          <div className="pt-2">
             <a
               href={GOOGLE_MAPS_PLACE_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-mangrove-fg underline"
+              className={cn(buttonVariants({ variant: "default" }), "w-fit")}
             >
-              open it on Google Maps
+              Open in Google Maps
             </a>
-            .
-          </Text>
+          </div>
 
           {embedSrc ? (
             <div className="overflow-hidden rounded-lg border border-line bg-sand-deep aspect-[16/9]">
@@ -76,12 +74,14 @@ export function MapSection({ showLocationLink = true, band }: MapSectionProps) {
           )}
 
           {showLocationLink ? (
-            <Link
-              href="/location"
+            <a
+              href={GOOGLE_MAPS_PLACE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className={cn(buttonVariants({ variant: "outline" }), "w-fit")}
             >
               Location &amp; directions
-            </Link>
+            </a>
           ) : null}
         </Stack>
       </Container>

@@ -12,6 +12,7 @@ export const PHONE_E164 = "+919986222892";
 export const WHATSAPP_E164 = "919986222892";
 export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_E164}`;
 export const TEL_URL = `tel:${PHONE_E164}`;
+export const INSTAGRAM_URL = ""; // Add Instagram URL here when available
 
 export const ROOM_SLUG = "deluxe-ac";
 export const ROOM_PATH = "/rooms/deluxe-ac-room";
@@ -56,8 +57,7 @@ export const FULL_ADDRESS =
 /** WGS84 from the Google Maps place pin for GOOGLE_PLACE_ID. */
 export const GEO_LATITUDE = 14.1007798;
 export const GEO_LONGITUDE = 74.4874894;
-
-export const GOOGLE_MAPS_PLACE_URL = `https://www.google.com/maps/place/?q=place_id:${GOOGLE_PLACE_ID}`;
+export const GOOGLE_MAPS_PLACE_URL = "https://maps.app.goo.gl/8YD4RiHJrZKKVNmf9?g_st=ac";
 
 /**
  * Maps Embed API iframe src (mode=place). Key is public by design —

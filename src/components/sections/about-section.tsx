@@ -23,27 +23,15 @@ export function AboutSection({ compact = false, band }: AboutSectionProps) {
             A house in Murudeshwar, not a hotel
           </Heading>
           <Text tone="muted">
-            {BUSINESS_NAME} is a family-run homestay. There is one Deluxe AC Room,
-            priced by how many guests share it. When you message us, you are talking to
-            the person who owns the house, not a booking desk. We confirm availability
-            ourselves and reply on WhatsApp with the rate for your dates.
+            {BUSINESS_NAME} is a family-run homestay in Murudeshwar. We offer a quiet,
+            comfortable base for your visit, hosted personally by the family.
           </Text>
-          {!compact ? (
-            <>
-              <Text tone="muted">
-                We are not a hotel. There is no reception, no room-service menu, and no
-                booking site between you and the host. If that suits your trip — a real
-                house, a direct conversation, and a price based on your group size —
-                this is the right fit.
-              </Text>
-            </>
-          ) : null}
           {compact ? (
             <Link
               href="/about"
               className={cn(buttonVariants({ variant: "outline" }), "w-fit")}
             >
-              About this homestay
+              More about us
             </Link>
           ) : null}
         </Stack>

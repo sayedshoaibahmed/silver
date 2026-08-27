@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Source_Sans_3, Source_Serif_4 } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 
 import { Providers } from "@/components/providers";
 import { BUSINESS_NAME, SITE_URL } from "@/lib/business";
@@ -11,12 +11,12 @@ import { THEME_INIT_SCRIPT } from "@/lib/theme";
 
 import "./globals.css";
 
-const sourceSans = Source_Sans_3({
+const sourceSans = Inter({
   variable: "--font-source-sans",
   subsets: ["latin"],
 });
 
-const sourceSerif = Source_Serif_4({
+const sourceSerif = Playfair_Display({
   variable: "--font-source-serif",
   subsets: ["latin"],
 });

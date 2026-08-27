@@ -1,18 +1,15 @@
 export const mainNav = [
-  { href: "/rooms", label: "Rooms" },
-  { href: "/gallery", label: "Gallery" },
-  { href: "/about", label: "About" },
+  { href: "/", label: "Home" },
+  { href: "/rooms", label: "Room" },
   { href: "/location", label: "Location" },
-  { href: "/contact", label: "Contact" },
+  { href: "/#faq", label: "FAQ" },
+  { href: "/contact", label: "Contact / Book" },
 ] as const;
 
 export const footerNav = [
   { href: "/", label: "Home" },
-  { href: "/rooms", label: "Rooms" },
-  { href: "/gallery", label: "Gallery" },
-  { href: "/about", label: "About" },
+  { href: "/rooms", label: "Room" },
   { href: "/location", label: "Location" },
-  { href: "/contact", label: "Contact" },
-  { href: "/privacy", label: "Privacy" },
-  { href: "/terms", label: "Terms" },
+  { href: "/#faq", label: "FAQ" },
+  { href: "/contact", label: "Contact / Book" },
 ] as const;

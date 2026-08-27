@@ -1,16 +1,13 @@
 import type { Metadata } from "next";
 
 import { RevealOnScroll } from "@/components/reveal-on-scroll";
-import { AboutSection } from "@/components/sections/about-section";
+import { BookingWidget } from "@/components/booking/booking-widget";
 import { FaqSection } from "@/components/sections/faq-section";
 import { FinalCtaSection } from "@/components/sections/final-cta-section";
 import { HeroSection } from "@/components/sections/hero-section";
 import { MapSection } from "@/components/sections/map-section";
 import { MurudeshwarInfoSection } from "@/components/sections/murudeshwar-info-section";
-import { NearbyAttractionsSection } from "@/components/sections/nearby-attractions-section";
-import { PhotosSection } from "@/components/sections/photos-section";
 import { PropertyIntroSection } from "@/components/sections/property-intro-section";
-import { ReviewsSection } from "@/components/sections/reviews-section";
 import { RoomPricingSection } from "@/components/sections/room-pricing-section";
 import { JsonLd } from "@/components/seo/json-ld";
 import { getPublicPricing } from "@/lib/pricing/fetch";
@@ -29,26 +26,38 @@ export default async function HomePage() {
     <>
       <JsonLd data={faqLd} />
       <HeroSection />
-      <PropertyIntroSection />
+      
+      <RevealOnScroll>
+        <PropertyIntroSection />
+      </RevealOnScroll>
+      
+      <RevealOnScroll>
+        <div className="bg-canvas py-8">
+          <div className="container mx-auto max-w-xl px-4">
+            <BookingWidget />
+          </div>
+        </div>
+      </RevealOnScroll>
+      
       <RevealOnScroll>
         <RoomPricingSection />
       </RevealOnScroll>
+      
       <RevealOnScroll>
-        <PhotosSection band="canvas" />
+        <MurudeshwarInfoSection band="canvas" />
       </RevealOnScroll>
-      <RevealOnScroll>
-        <AboutSection compact band="wash" />
-      </RevealOnScroll>
-      <ReviewsSection />
-      <MurudeshwarInfoSection band="canvas" />
-      <RevealOnScroll>
-        <NearbyAttractionsSection band="wash" />
-      </RevealOnScroll>
+      
       <RevealOnScroll>
         <FaqSection />
       </RevealOnScroll>
-      <MapSection band="wash" />
-      <FinalCtaSection />
+      
+      <RevealOnScroll>
+        <MapSection band="wash" />
+      </RevealOnScroll>
+      
+      <RevealOnScroll>
+        <FinalCtaSection />
+      </RevealOnScroll>
     </>
   );
 }

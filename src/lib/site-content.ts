@@ -25,27 +25,27 @@ export const murudeshwarContext = {
 export const nearbyAttractions = [
   {
     name: "Murudeshwar Temple & Shiva statue",
-    note: "The temple complex on Kanduka Hill includes one of the world's tallest Shiva statues. The sea is visible from the top — it's a five-minute walk from the beach if you're already at the temple. Worth a morning rather than a rushed stop.",
+    note: "The temple complex on Kanduka Hill includes one of the world's tallest Shiva statues. A five-minute walk from the beach.",
   },
   {
     name: "Murudeshwar Beach",
-    note: "The beach wraps around the base of the hill. Early morning is quietest; fishing boats leave at dawn. No entry charge. The sand is dark and coarse compared to tourist-only beaches further south.",
+    note: "The beach wraps around the base of the hill. A working fishing beach as well as a spot for sunrise walks.",
   },
   {
     name: "Netrani Island",
-    note: "About 19 km offshore, Netrani is one of the best scuba and snorkelling spots on the Karnataka coast. Day trips run from Murdeshwar jetty. Operators are independent — ask locally or on WhatsApp for current contacts.",
+    note: "About 19 km offshore, Netrani is one of the best scuba and snorkelling spots on the Karnataka coast. Day trips run from Murdeshwar jetty.",
   },
   {
     name: "Idagunji Ganapati Temple",
-    note: "A significant Ganesha shrine about 30 km south of Murudeshwar in Idagunji. Many pilgrims combine it with a Murudeshwar visit. Worth planning a half-day if you have a vehicle.",
+    note: "A significant Ganesha shrine about 30 km south of Murudeshwar in Idagunji.",
   },
   {
     name: "Yana rock formations",
-    note: "Unusual black crystalline rock formations in the Sahyadri foothills, roughly 50–60 km inland. A trekking day trip for guests who want to see the Western Ghats. Best in the dry season.",
+    note: "Unusual black crystalline rock formations in the Sahyadri foothills, roughly 50–60 km inland.",
   },
   {
     name: "Murdeshwar jetty & local fish market",
-    note: "The fishing jetty near the beach is active in the early morning. If you're staying on the coast, watching the boats return and the catch come in is a genuine local experience, not a scheduled tour.",
+    note: "The fishing jetty near the beach is active in the early morning. A great place to watch the boats return and the catch come in.",
   },
 ] as const;
 

@@ -81,8 +81,8 @@ export function FloatingContact() {
         aria-label="WhatsApp Silver Sand Beach Homestay"
         tabIndex={open ? 0 : -1}
         className={cn(
-          buttonVariants({ variant: "gold", size: "icon" }),
-          "ss-fab ss-fab-pulse h-12 w-12",
+          buttonVariants({ variant: "whatsapp", size: "icon" }),
+          "ss-fab ss-fab-pulse h-12 w-12 shadow-lg",
         )}
       >
         <WhatsAppMark className="h-5 w-5" />
@@ -92,8 +92,8 @@ export function FloatingContact() {
         aria-label={`Call ${DISPLAY_PHONE}`}
         tabIndex={open ? 0 : -1}
         className={cn(
-          buttonVariants({ variant: "gold", size: "icon" }),
-          "ss-fab h-12 w-12",
+          buttonVariants({ variant: "default", size: "icon" }),
+          "ss-fab h-12 w-12 shadow-lg",
         )}
       >
         <Phone className="h-5 w-5" strokeWidth={2} />
