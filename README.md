@@ -55,3 +55,7 @@ Read **[START_HERE.md](./START_HERE.md)** first, then `docs/CURRENT_STATE.md` an
 ## Contact (confirmed)
 
 WhatsApp / phone: **+91 99862 22892**
+
+## Deployment
+
+Hosted on [Vercel](https://vercel.com). Connected to Neon PostgreSQL (Singapore region). Database schema managed with Drizzle ORM.
