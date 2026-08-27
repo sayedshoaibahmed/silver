@@ -205,8 +205,8 @@ export function BookingWidgetForm({ initialPricing }: BookingWidgetFormProps) {
   // Date helpers
   // ---------------------------------------------------------------------------
 
-  const checkInDate = parseIsoDate(checkIn);
-  const checkOutDate = parseIsoDate(checkOut);
+  const checkInDate = useMemo(() => parseIsoDate(checkIn), [checkIn]);
+  const checkOutDate = useMemo(() => parseIsoDate(checkOut), [checkOut]);
   const datesChosen = Boolean(checkIn && checkOut);
   const checkoutAfterCheckin =
     checkInDate && checkOutDate

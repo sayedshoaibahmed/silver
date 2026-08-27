@@ -36,7 +36,7 @@ function InstagramIcon({ className }: { className?: string }) {
 
 export function SiteFooter() {
   return (
-    <footer className="mt-auto bg-ink text-sand scheme-dark border-t border-white/10">
+    <footer className="mt-auto bg-mangrove text-sand scheme-dark border-t border-white/10">
       <Container className="grid gap-12 py-16 md:grid-cols-3 md:gap-8 lg:gap-16">
         
         {/* 1. Property Information */}

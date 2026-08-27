@@ -33,7 +33,7 @@ export function ContactCta({
       </a>
       <a
         href={TEL_URL}
-        className={cn(buttonVariants({ variant: "call", size: layout === "stack" ? "full" : "lg" }))}
+        className={cn(buttonVariants({ variant: "outline-on-dark", size: layout === "stack" ? "full" : "lg" }))}
       >
         Call {DISPLAY_PHONE}
       </a>

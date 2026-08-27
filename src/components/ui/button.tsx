@@ -16,7 +16,7 @@ const buttonVariants = cva(
           "border border-line-on-dark bg-transparent text-sand hover:bg-mangrove-mid",
         whatsapp: "bg-whatsapp text-sand hover:bg-whatsapp-hover",
         ghost: "text-ink hover:bg-sand-deep",
-        call: "border border-mangrove-fg bg-transparent text-mangrove-fg hover:bg-sand-deep",
+        call: "border border-ink bg-transparent text-ink hover:bg-black/5 dark:border-mangrove-fg dark:text-mangrove-fg dark:hover:bg-sand-deep",
       },
       size: {
         default: "h-11 px-5 py-2",
