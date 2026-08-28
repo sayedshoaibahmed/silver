@@ -51,10 +51,16 @@ import { cn } from "@/lib/utils";
 /** One row in the multi-room selection UI. */
 type RoomLine = {
   id: string;
-  occupancy: OccupancyTier;
+  occupancy: OccupancyTier | null;
   /** Number of physical rooms of this type. */
   quantity: number;
 };
+
+const ROOM_TYPE_PLACEHOLDER_VALUE = "";
+
+function newRoomLine(): RoomLine {
+  return { id: newLineId(), occupancy: null, quantity: 1 };
+}
 
 type BookingWidgetFormProps = {
   initialPricing: PublicPricing | null;
@@ -103,11 +109,7 @@ export function BookingWidgetForm({ initialPricing }: BookingWidgetFormProps) {
   const [checkOut, setCheckOut] = useState("");
 
   // --- Room lines ----------------------------------------------------------
-  const defaultOccupancy: OccupancyTier =
-    initialPricing?.occupancyRates[0]?.occupancy ?? 2;
-  const [roomLines, setRoomLines] = useState<RoomLine[]>([
-    { id: newLineId(), occupancy: defaultOccupancy, quantity: 1 },
-  ]);
+  const [roomLines, setRoomLines] = useState<RoomLine[]>([newRoomLine()]);
 
   // --- Extra beds ----------------------------------------------------------
   const [extraBeds, setExtraBeds] = useState(0);
@@ -142,15 +144,6 @@ export function BookingWidgetForm({ initialPricing }: BookingWidgetFormProps) {
         if (!cancelled) {
           setPricing(data);
           setPricingStatus("ready");
-          // Snap the first room line to a valid tier from live data
-          const firstTier = data.occupancyRates[0]?.occupancy;
-          if (firstTier) {
-            setRoomLines((prev) =>
-              prev.map((line, idx) =>
-                idx === 0 ? { ...line, occupancy: firstTier } : line,
-              ),
-            );
-          }
         }
       } catch {
         if (!cancelled) {
@@ -176,12 +169,16 @@ export function BookingWidgetForm({ initialPricing }: BookingWidgetFormProps) {
   const extraBedsOffered = pricing != null && pricing.room.extraBedRateInr > 0;
   const extraBedRateInr = pricing?.room.extraBedRateInr ?? 0;
   const availableTiers = catalog[0]?.occupancyOptions ?? [...OCCUPANCY_TIERS];
+  const hasSelectedRoomTypes = roomLines.some((line) => line.occupancy !== null);
 
-  // Extra-bed cap: based on the tightest (lowest) occupancy across all lines
-  const minLineOccupancy: number = roomLines.reduce(
-    (min: number, line) => Math.min(min, line.occupancy),
-    (roomLines[0]?.occupancy ?? 2) as number,
-  );
+  // Extra-bed cap: based on the tightest (lowest) occupancy across selected lines
+  const selectedOccupancies = roomLines
+    .map((line) => line.occupancy)
+    .filter((occupancy): occupancy is OccupancyTier => occupancy !== null);
+  const minLineOccupancy =
+    selectedOccupancies.length > 0
+      ? Math.min(...selectedOccupancies)
+      : maxOccupancy;
   const extraBedMax = maxExtraBeds(minLineOccupancy, maxOccupancy);
   const clampedExtraBeds = extraBedsOffered
     ? clampExtraBeds(minLineOccupancy, extraBeds, maxOccupancy)
@@ -191,13 +188,23 @@ export function BookingWidgetForm({ initialPricing }: BookingWidgetFormProps) {
   // matching the existing API and WhatsApp message format.
   const enquiryLines = useMemo(
     () =>
-      roomLines.map((line, idx) => ({
-        id: line.id,
-        roomSlug: catalog[0]?.slug ?? ROOM_SLUG,
-        occupancy: line.occupancy,
-        quantity: line.quantity,
-        extraBeds: idx === 0 ? clampedExtraBeds : 0,
-      })),
+      roomLines
+        .map((line, idx) => ({
+          roomSlug: catalog[0]?.slug ?? ROOM_SLUG,
+          occupancy: line.occupancy,
+          quantity: line.quantity,
+          extraBeds: idx === 0 ? clampedExtraBeds : 0,
+        }))
+        .filter(
+          (
+            line,
+          ): line is {
+            roomSlug: string;
+            occupancy: OccupancyTier;
+            quantity: number;
+            extraBeds: number;
+          } => line.occupancy !== null,
+        ),
     [catalog, roomLines, clampedExtraBeds],
   );
 
@@ -269,11 +276,7 @@ export function BookingWidgetForm({ initialPricing }: BookingWidgetFormProps) {
   // ---------------------------------------------------------------------------
 
   function addRoomLine() {
-    const defaultTier = availableTiers[0] ?? 2;
-    setRoomLines((prev) => [
-      ...prev,
-      { id: newLineId(), occupancy: defaultTier, quantity: 1 },
-    ]);
+    setRoomLines((prev) => [...prev, newRoomLine()]);
   }
 
   function removeRoomLine(id: string) {
@@ -335,6 +338,8 @@ export function BookingWidgetForm({ initialPricing }: BookingWidgetFormProps) {
       errs.rooms = "Please select at least one room type.";
 
     for (const line of roomLines) {
+      if (line.occupancy === null)
+        errs[`room_${line.id}`] = "Please select a room type.";
       if (line.quantity < 1)
         errs[`qty_${line.id}`] = "Quantity must be at least 1.";
     }
@@ -451,6 +456,11 @@ export function BookingWidgetForm({ initialPricing }: BookingWidgetFormProps) {
                 canRemove={roomLines.length > 1}
                 availableTiers={availableTiers}
                 pricing={pricing}
+                occupancyError={
+                  submitAttempted
+                    ? validationErrors[`room_${line.id}`]
+                    : undefined
+                }
                 qtyError={
                   submitAttempted
                     ? validationErrors[`qty_${line.id}`]
@@ -603,6 +613,7 @@ export function BookingWidgetForm({ initialPricing }: BookingWidgetFormProps) {
             datesChosen={datesChosen}
             checkoutAfterCheckin={checkoutAfterCheckin}
             pricingStatus={pricingStatus}
+            hasSelectedRoomTypes={hasSelectedRoomTypes}
             nightly={nightly}
             estimate={estimate}
             nights={nights}
@@ -652,6 +663,7 @@ type RoomLineRowProps = {
   canRemove: boolean;
   availableTiers: OccupancyTier[];
   pricing: PublicPricing | null;
+  occupancyError?: string;
   qtyError?: string;
   onOccupancyChange: (occ: OccupancyTier) => void;
   onQuantityChange: (qty: number) => void;
@@ -664,6 +676,7 @@ function RoomLineRow({
   canRemove,
   availableTiers,
   pricing,
+  occupancyError,
   qtyError,
   onOccupancyChange,
   onQuantityChange,
@@ -695,12 +708,19 @@ function RoomLineRow({
           <Select
             surface="dark"
             aria-label={`Room type for room ${index + 1}`}
-            value={occupancyOptionValue(roomSlug, line.occupancy)}
+            value={
+              line.occupancy === null
+                ? ROOM_TYPE_PLACEHOLDER_VALUE
+                : occupancyOptionValue(roomSlug, line.occupancy)
+            }
             onChange={(e) => {
               const parsed = parseOccupancyOptionValue(e.target.value);
               if (parsed) onOccupancyChange(parsed.occupancy);
             }}
           >
+            <option value={ROOM_TYPE_PLACEHOLDER_VALUE} disabled>
+              Select room type
+            </option>
             {availableTiers.map((tier) => {
               const rate = pricing?.occupancyRates.find(
                 (r) => r.occupancy === tier,
@@ -731,6 +751,9 @@ function RoomLineRow({
         </div>
       </div>
 
+      {occupancyError && (
+        <p className="mt-1 text-xs text-amber-400">{occupancyError}</p>
+      )}
       {qtyError && (
         <p className="mt-1 text-xs text-amber-400">{qtyError}</p>
       )}
@@ -746,6 +769,7 @@ function EstimatePanel({
   datesChosen,
   checkoutAfterCheckin,
   pricingStatus,
+  hasSelectedRoomTypes,
   nightly,
   estimate,
   nights,
@@ -757,6 +781,7 @@ function EstimatePanel({
   datesChosen: boolean;
   checkoutAfterCheckin: boolean;
   pricingStatus: "ready" | "loading" | "unavailable";
+  hasSelectedRoomTypes: boolean;
   nightly: NightlyEnquiryPrice | null;
   estimate: ReturnType<typeof estimateEnquiry>;
   nights: number | null;
@@ -776,6 +801,15 @@ function EstimatePanel({
   if (datesChosen && !checkoutAfterCheckin) {
     return (
       <p className="text-sm text-amber-400">Please choose valid dates.</p>
+    );
+  }
+
+  // No estimate until a room type is chosen
+  if (!nightly && pricingStatus === "ready" && !hasSelectedRoomTypes) {
+    return (
+      <p className="text-sm text-sand/60">
+        Select a room type to see an estimate.
+      </p>
     );
   }
 

@@ -434,8 +434,9 @@ html {
 }
 
 @media (max-width: 640px) {
-  .public-site footer {
-    padding-bottom: 5.5rem;
+  .public-site .ss-fab-cluster {
+    right: max(1.25rem, env(safe-area-inset-right, 0px));
+    bottom: max(1.5rem, env(safe-area-inset-bottom, 0px));
   }
 }
 
