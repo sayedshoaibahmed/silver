@@ -6,6 +6,27 @@ Format: newest first. Each entry: date, what, why, what we explicitly rejected.
 
 ---
 
+## 2026-09-01 — Canonical SITE_URL for production SEO
+
+### What
+
+- `SITE_URL` now resolves through `resolveSiteUrl()` in `src/lib/business.ts`.
+- Always use `https://silversandhomestay.com` when `VERCEL_ENV=production`, when the env is missing, or when `NEXT_PUBLIC_SITE_URL` is a `*.vercel.app` host (trailing slash stripped first).
+- Localhost overrides still work for local absolute URLs.
+- Unit coverage in `src/lib/site-url.test.ts`.
+
+### Why
+
+Live `/robots.txt` and `/sitemap.xml` were advertising `https://silver-one-gray.vercel.app/` (and a double slash on the Sitemap line) because Production `NEXT_PUBLIC_SITE_URL` pointed at the Vercel deployment host with a trailing slash. Sitemap/robots/canonicals/OG/JSON-LD all read `SITE_URL`.
+
+### Rejected
+
+- Hardcoding the apex separately in `robots.ts` and `sitemap.ts` (duplicate sources of truth).
+- Changing Vercel dashboard env vars from this environment (code must fail closed even if the env stays wrong).
+- Keeping `*.vercel.app` as a Preview `SITE_URL` (would still leak into Preview robots/sitemap and client bundles).
+
+---
+
 ## 2026-08-25 — Subtle hero parallax (desktop only)
 
 ### What

@@ -14,7 +14,7 @@
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
     "db:seed": "npx --yes tsx scripts/seed.ts",
-    "test": "npx --yes tsx --test src/lib/pricing/estimate.test.ts src/lib/booking/whatsapp-message.test.ts src/lib/pricing/no-hardcoded-prices.test.ts src/lib/seo/json-ld.test.ts src/lib/google-reviews/fetch.test.ts src/lib/rooms/occupancy-images.test.ts src/lib/attractions/images.test.ts src/lib/auth/deployment.test.ts src/lib/db-pool.test.ts src/lib/pricing/guest-cap.test.ts src/lib/booking/dates.test.ts src/lib/theme.test.ts src/lib/theme-contrast.test.ts src/lib/motion.test.ts src/lib/images/placeholder.test.ts src/lib/pricing/count-inr.test.ts src/lib/images/lightbox.test.ts src/lib/hero-parallax.test.ts"
+    "test": "npx --yes tsx --test src/lib/pricing/estimate.test.ts src/lib/booking/whatsapp-message.test.ts src/lib/pricing/no-hardcoded-prices.test.ts src/lib/seo/json-ld.test.ts src/lib/google-reviews/fetch.test.ts src/lib/rooms/occupancy-images.test.ts src/lib/attractions/images.test.ts src/lib/auth/deployment.test.ts src/lib/db-pool.test.ts src/lib/pricing/guest-cap.test.ts src/lib/booking/dates.test.ts src/lib/theme.test.ts src/lib/theme-contrast.test.ts src/lib/motion.test.ts src/lib/images/placeholder.test.ts src/lib/pricing/count-inr.test.ts src/lib/images/lightbox.test.ts src/lib/hero-parallax.test.ts src/lib/site-url.test.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
