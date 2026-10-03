@@ -12,7 +12,7 @@ jobs:
     env:
       AUTH_SECRET: ci-build-secret-min-32-chars-long-xx
       DATABASE_URL: postgresql://ci:ci@localhost:5432/ci
-      NEXT_PUBLIC_SITE_URL: https://silversandhomestay.com
+      NEXT_PUBLIC_SITE_URL: https://www.silversandhomestay.com
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
