@@ -7,24 +7,39 @@ import {
   resolveSiteUrl,
 } from "./business";
 
+test("canonical origin is the www host", () => {
+  assert.equal(CANONICAL_SITE_URL, "https://www.silversandhomestay.com");
+});
+
 test("normalizeSiteOrigin strips trailing slashes", () => {
   assert.equal(
     normalizeSiteOrigin("https://silver-one-gray.vercel.app/"),
     "https://silver-one-gray.vercel.app",
   );
   assert.equal(
-    normalizeSiteOrigin("https://silversandhomestay.com"),
-    "https://silversandhomestay.com",
+    normalizeSiteOrigin("https://www.silversandhomestay.com"),
+    "https://www.silversandhomestay.com",
   );
 });
 
-test("resolveSiteUrl forces canonical apex on Vercel production", () => {
+test("resolveSiteUrl forces canonical www on Vercel production", () => {
   assert.equal(
     resolveSiteUrl("production", "https://silver-one-gray.vercel.app/"),
     CANONICAL_SITE_URL,
   );
   assert.equal(
     resolveSiteUrl("production", "https://silversandhomestay.com/"),
+    CANONICAL_SITE_URL,
+  );
+});
+
+test("resolveSiteUrl maps apex and www hosts to canonical www", () => {
+  assert.equal(
+    resolveSiteUrl("", "https://silversandhomestay.com"),
+    CANONICAL_SITE_URL,
+  );
+  assert.equal(
+    resolveSiteUrl("", "https://www.silversandhomestay.com/"),
     CANONICAL_SITE_URL,
   );
 });

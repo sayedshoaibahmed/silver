@@ -4,9 +4,12 @@
  */
 export const BUSINESS_NAME = "Silver Sand Beach Homestay";
 export const BUSINESS_PLACE = "Murudeshwar, Karnataka, India";
+/** Registrable (apex) domain. Vercel 308s the apex to `www`. */
 export const SITE_HOST = "silversandhomestay.com";
-/** Canonical apex — sitemap, robots, production canonicals/OG/JSON-LD. */
-export const CANONICAL_SITE_URL = `https://${SITE_HOST}`;
+/** Primary host served by Vercel. */
+export const CANONICAL_HOST = `www.${SITE_HOST}`;
+/** Canonical origin — sitemap, robots, production canonicals/OG/JSON-LD. */
+export const CANONICAL_SITE_URL = `https://${CANONICAL_HOST}`;
 
 /** Strip whitespace and trailing slashes so `${origin}/path` never becomes `//path`. */
 export function normalizeSiteOrigin(url: string): string {
@@ -16,9 +19,10 @@ export function normalizeSiteOrigin(url: string): string {
 /**
  * Absolute site origin for SEO (canonicals, OG, JSON-LD, sitemap, robots).
  *
- * Always prefer the apex domain when the env is missing, is Production, or
- * points at a `*.vercel.app` deployment host (with or without a trailing
- * slash). Localhost / custom non-Vercel overrides still work for local OG.
+ * Always use the canonical `www` origin when the env is missing, is Production,
+ * names the apex or `www` host, or points at a `*.vercel.app` deployment host
+ * (with or without a trailing slash). Localhost / custom non-Vercel overrides
+ * still work for local OG.
  */
 export function resolveSiteUrl(
   vercelEnv: string | undefined = process.env.VERCEL_ENV,
@@ -36,7 +40,7 @@ export function resolveSiteUrl(
     const host = new URL(normalized).hostname;
     if (
       host === SITE_HOST ||
-      host === `www.${SITE_HOST}` ||
+      host === CANONICAL_HOST ||
       host.endsWith(".vercel.app")
     ) {
       return CANONICAL_SITE_URL;
