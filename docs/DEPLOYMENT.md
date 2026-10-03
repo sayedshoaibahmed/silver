@@ -33,12 +33,12 @@ Copy names from [`.env.example`](../.env.example). Set them in **Vercel → Proj
 | `DATABASE_URL`                      | Neon **pooled** URI (`…-pooler.…neon.tech`) with `sslmode=require`                          | Separate Neon **branch** URI, or leave unset so pages fail closed on prices | Local Postgres, e.g. `postgresql://ci:ci@localhost:5432/ci` |
 | `DATABASE_URL_UNPOOLED`             | Neon **direct** URI (no `-pooler`) — used only for `npm run db:push` from a laptop          | Do not point this at production                                             | Omit                                                        |
 | `AUTH_SECRET`                       | `openssl rand -base64 32` — unique, ≥32 chars, **not** the CI placeholder                   | Different secret from Production                                            | Any ≥32-char local secret                                   |
-| `AUTH_URL`                          | `https://silversandhomestay.com`                                                            | Omit (or the `*.vercel.app` Preview URL)                                    | Omit so cookies work on `http://127.0.0.1`                  |
-| `NEXT_PUBLIC_SITE_URL`              | `https://silversandhomestay.com` (no trailing slash). Code **forces** the apex when Production or when the value is `*.vercel.app` / trailing-slash. | Same as Production for SEO (apex). Do not set a `*.vercel.app` URL — it is ignored for `SITE_URL`. | `http://localhost:43123` is fine                            |
+| `AUTH_URL`                          | `https://www.silversandhomestay.com`                                                          | Omit (or the `*.vercel.app` Preview URL)                                    | Omit so cookies work on `http://127.0.0.1`                  |
+| `NEXT_PUBLIC_SITE_URL`              | `https://www.silversandhomestay.com` (no trailing slash). Code **forces** `www` when Production or when the value is the apex, `*.vercel.app`, or has a trailing slash. | Same as Production for SEO (`www`). Do not set a `*.vercel.app` URL — it is ignored for `SITE_URL`. | `http://localhost:43123` is fine                            |
 | `ADMIN_EMAIL` / `ADMIN_PASSWORD`    | Owner login — **seed once**. Not `local-dev-password-change-me`                             | Never the production password. Seed a throwaway user on a Preview DB only   | Local seed values                                           |
 | `GOOGLE_PLACES_API_KEY`             | Server key, Places API (New) only                                                           | Same or unset (Home omits reviews)                                          | Same or unset                                               |
 | `GOOGLE_PLACE_ID`                   | Confirmed Place ID                                                                          | Same                                                                        | Same                                                        |
-| `NEXT_PUBLIC_GOOGLE_MAPS_EMBED_KEY` | Embed key; HTTP referrers = `https://silversandhomestay.com/*` and `https://*.vercel.app/*` | Referrer-restricted                                                         | Localhost referrer if you test the map                      |
+| `NEXT_PUBLIC_GOOGLE_MAPS_EMBED_KEY` | Embed key; HTTP referrers = `https://www.silversandhomestay.com/*` and `https://*.vercel.app/*` | Referrer-restricted                                                         | Localhost referrer if you test the map                      |
 | `ALLOW_ADMIN_ON_PREVIEW`            | Do **not** set                                                                              | `true` only with a **non-prod** Neon branch                                 | Omit                                                        |
 | `DISABLE_ADMIN_ON_PREVIEW`          | Omit                                                                                        | Optional force-off                                                          | Omit                                                        |
 
@@ -87,9 +87,9 @@ Optional: create a Neon **branch** named `preview` for Vercel Preview. Give Prev
 
 ### 3. Domain `silversandhomestay.com`
 
-Canonical host is the **apex**. `www` redirects to apex (SEO assumes this; see `SEO_STRATEGY.md`).
+Canonical host is **`www.silversandhomestay.com`**. The apex 308s to `www` (SEO assumes this; see `SEO_STRATEGY.md`).
 
-1. In Vercel → Project → **Domains**, add `silversandhomestay.com` and `www.silversandhomestay.com`. Set the apex as primary so `www` 308s to apex.
+1. In Vercel → Project → **Domains**, add `silversandhomestay.com` and `www.silversandhomestay.com`. Set `www` as primary so the apex 308s to `www` (and `http://` apex redirects straight to `https://www` in one hop).
 2. At the registrar, point DNS at Vercel (do not keep parking nameservers):
 
    | Host       | Type      | Value                  |
@@ -99,9 +99,9 @@ Canonical host is the **apex**. `www` redirects to apex (SEO assumes this; see `
 
    Some registrars offer **ALIAS/ANAME** for apex instead of A; that is fine if it targets Vercel’s instruction for this project. Alternatively, switch the domain’s nameservers to Vercel and skip the records above.
 
-3. Wait for TLS (Vercel Let’s Encrypt). `https://silversandhomestay.com` should load; `http` should upgrade; `www` should land on apex.
-4. Confirm Vercel Production `AUTH_URL` and `NEXT_PUBLIC_SITE_URL` are exactly `https://silversandhomestay.com` (no `www`, no trailing slash).
-5. Restrict the Maps Embed key referrers to `https://silversandhomestay.com/*` (and Preview `https://*.vercel.app/*` if you use the map on Preview).
+3. Wait for TLS (Vercel Let’s Encrypt). `https://www.silversandhomestay.com` should load; `http` should upgrade; the apex should land on `www`.
+4. Confirm Vercel Production `AUTH_URL` and `NEXT_PUBLIC_SITE_URL` are exactly `https://www.silversandhomestay.com` (with `www`, no trailing slash).
+5. Restrict the Maps Embed key referrers to `https://www.silversandhomestay.com/*` (and Preview `https://*.vercel.app/*` if you use the map on Preview).
 
 Registrar login and whether the domain is paid are still owner facts (`BUSINESS_INFO.md` checklist #18).
 

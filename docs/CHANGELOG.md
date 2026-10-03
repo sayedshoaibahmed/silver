@@ -6,6 +6,25 @@ Format: newest first. Each entry: date, what, why, what we explicitly rejected.
 
 ---
 
+## 2026-10-04 — Canonical host is `www`
+
+### What
+
+- `CANONICAL_SITE_URL` in `src/lib/business.ts` is now `https://www.silversandhomestay.com` (new `CANONICAL_HOST`). `SITE_HOST` stays the apex registrable domain.
+- `resolveSiteUrl()` maps Production, missing env, apex, `www`, and `*.vercel.app` to the `www` origin. Sitemap, robots, canonicals, OG, and JSON-LD follow automatically.
+- `.env.example`, CI, and `DEPLOYMENT.md` / `SEO_STRATEGY.md` / `ARCHITECTURE.md` / `CURRENT_STATE.md` now say `www`.
+
+### Why
+
+Vercel serves `www` as the primary domain and 308s the apex to it, but every canonical, `og:url`, JSON-LD `@id`, sitemap `<loc>`, and the robots `Sitemap:` line pointed at the apex. Search Console (3 Oct 2026) reported "Page with redirect" (3) and "Redirect error" (1) with only one page indexed.
+
+### Rejected
+
+- Flipping Vercel back to apex-primary (the live redirect already sends traffic and any existing signals to `www`; changing hosts again would churn indexing).
+- Hardcoding `www` separately in `sitemap.ts` / `robots.ts` (one source of truth stays `CANONICAL_SITE_URL`).
+
+---
+
 ## 2026-09-01 — Canonical SITE_URL for production SEO
 
 ### What

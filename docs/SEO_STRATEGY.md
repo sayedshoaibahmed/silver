@@ -20,10 +20,10 @@ Implemented in the Next.js app. Canonical room URL is **`/rooms/deluxe-ac-room`*
 | Item                                | Live?                 | Notes                                                                                                                                                                                                                                        |
 | ----------------------------------- | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Unique `<title>` + meta description | Yes                   | Copy in `src/lib/seo/copy.ts`. Home uses an absolute title so the brand is not doubled.                                                                                                                                                      |
-| Canonical URLs                      | Yes                   | Self-canonicals via `pageMetadata()`. `SITE_URL` / `metadataBase` resolve to apex `https://silversandhomestay.com` on Production and whenever `NEXT_PUBLIC_SITE_URL` is missing or `*.vercel.app` (trailing slash stripped). Localhost overrides allowed. **www vs apex redirect is DNS**, not this repo. |
+| Canonical URLs                      | Yes                   | Self-canonicals via `pageMetadata()`. `SITE_URL` / `metadataBase` resolve to `https://www.silversandhomestay.com` (`CANONICAL_SITE_URL` in `src/lib/business.ts`) on Production and whenever `NEXT_PUBLIC_SITE_URL` is missing, the apex, or `*.vercel.app` (trailing slash stripped). Localhost overrides allowed. **Apex → www redirect is Vercel Domains**, not this repo. |
 | Open Graph + Twitter                | Yes                   | Per-page `og:title` / `og:description` / `og:url` / `og:locale=en_IN`. Twitter `summary_large_image`. Image is a **branded wordmark card** (`src/app/opengraph-image.tsx`), not a fake villa photo. Swap for an owner photo when one exists. |
-| XML sitemap                         | Yes                   | `src/app/sitemap.ts` — `/`, `/rooms`, `/rooms/deluxe-ac-room`, `/gallery`, `/about`, `/location`, `/contact`, `/privacy`, `/terms`. Omits `/admin`, `/api/*`, `/style-guide`. Production `<loc>` hosts are always the apex.                                                                |
-| `robots.txt`                        | Yes                   | `src/app/robots.ts` — allow `/`; disallow `/admin`, `/api/`, `/style-guide`; `Sitemap: https://silversandhomestay.com/sitemap.xml` on Production.                                                                                                                                        |
+| XML sitemap                         | Yes                   | `src/app/sitemap.ts` — `/`, `/rooms`, `/rooms/deluxe-ac-room`, `/gallery`, `/about`, `/location`, `/contact`, `/privacy`, `/terms`. Omits `/admin`, `/api/*`, `/style-guide`. Production `<loc>` hosts are always `www`.                                                               |
+| `robots.txt`                        | Yes                   | `src/app/robots.ts` — allow `/`; disallow `/admin`, `/api/`, `/style-guide`; `Sitemap: https://www.silversandhomestay.com/sitemap.xml` on Production.                                                                                                                                        |
 | `noindex`                           | Yes                   | Admin layout + dashboard; `/style-guide`; 404 (`index: false`, `follow: true`).                                                                                                                                                              |
 | `lang="en-IN"`                      | Yes                   | Root `<html>`.                                                                                                                                                                                                                               |
 | Image alt text                      | Yes                   | Every `PhotoFrame` requires `alt` (empty frames use `role="img"` + `aria-label`). No property `<img>` yet.                                                                                                                                   |
@@ -103,7 +103,7 @@ Unknown until GSC/Ahrefs: whether we have any existing queries, crawl errors, or
 
 - [x] Unique `<title>` and meta description per URL — `src/lib/seo/copy.ts`
 - [x] One H1; H2s for widget (“Book your stay”), location, FAQ
-- [x] Canonical self-references; `www` vs apex decided at DNS (pick one, redirect the other) — code assumes **apex** `silversandhomestay.com`
+- [x] Canonical self-references; `www` vs apex decided at DNS (pick one, redirect the other) — code assumes **`www.silversandhomestay.com`**; apex 308s to `www`
 - [x] `sitemap.ts` — public URLs only
 - [x] `robots.txt` — allow public; disallow `/admin`; sitemap URL
 - [x] `noindex` on admin and `/style-guide`
@@ -172,7 +172,7 @@ When claimed or created:
 | Name               | Silver Sand Beach Homestay (match the site `<title>` brand)                                      |
 | Category           | Homestay (primary). Secondary only if true (Lodging, Guest house).                               |
 | Phone              | +91 99862 22892                                                                                  |
-| Website            | https://silversandhomestay.com                                                                   |
+| Website            | https://www.silversandhomestay.com                                                                 |
 | Appointment / chat | WhatsApp to the same number                                                                      |
 | Address + pin      | Owner-confirmed only                                                                             |
 | Hours              | Check-in window once known; do not copy Amani’s 6am–10pm from another property                   |
