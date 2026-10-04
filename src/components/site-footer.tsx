@@ -11,7 +11,7 @@ import {
   WHATSAPP_URL,
   INSTAGRAM_URL,
 } from "@/lib/business";
-import { footerNav } from "@/lib/navigation";
+import { FOOTER_CONTACT_PATH, footerSections, legalNav } from "@/lib/navigation";
 
 function InstagramIcon({ className }: { className?: string }) {
   return (
@@ -37,15 +37,18 @@ function InstagramIcon({ className }: { className?: string }) {
 export function SiteFooter() {
   return (
     <footer className="mt-auto border-t border-white/10 bg-mangrove text-sand scheme-dark">
-      <Container className="grid gap-6 py-8 max-md:pr-[4.75rem] md:grid-cols-3 md:gap-8 md:py-16 lg:gap-16">
-        {/* 1. Property Information */}
-        <div className="flex flex-col gap-3 md:gap-4">
-          <p className="font-serif text-xl font-semibold text-gold md:text-2xl">
+      <Container className="grid gap-6 py-8 max-md:pr-[4.75rem] md:grid-cols-3 md:gap-8 md:py-16 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr] lg:gap-12">
+        {/* 1. Property Information — full row on tablet, first column on desktop */}
+        <div className="flex flex-col gap-3 md:col-span-3 md:gap-4 lg:col-span-1">
+          <Link
+            href="/"
+            className="w-fit font-serif text-xl font-semibold text-gold transition-colors hover:text-gold-hover md:text-2xl"
+          >
             {BUSINESS_NAME}
-          </p>
+          </Link>
           <p className="text-sm leading-relaxed text-sand/80">
-            Comfortable, peaceful stay near Murdeshwar Beach —
-            perfect for families, couples and travellers.
+            Comfortable, peaceful stay near Murdeshwar Beach — perfect for families,
+            couples and travellers.
           </p>
           <a
             href={GOOGLE_MAPS_PLACE_URL}
@@ -63,66 +66,85 @@ export function SiteFooter() {
           </a>
         </div>
 
-        {/* 2–3. Quick Links + Contact — side by side on mobile; third column on desktop */}
-        <div className="grid grid-cols-2 gap-x-5 gap-y-6 border-t border-white/10 pt-6 md:contents md:border-0 md:pt-0">
-          <div className="flex flex-col gap-3 border-r border-white/10 pr-4 md:gap-4 md:border-r-0 md:px-4 md:pr-4">
-            <p className="font-serif text-base font-medium text-gold md:text-lg">
-              Quick Links
-            </p>
-            <nav className="flex flex-col gap-2 text-sm md:grid md:grid-cols-2 md:gap-x-4 md:gap-y-3">
-              {footerNav.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="text-sand/80 transition-colors hover:text-gold"
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
-          </div>
-
-          <div className="flex flex-col gap-3 pl-1 md:gap-4 md:pl-0">
-            <p className="font-serif text-base font-medium text-gold md:text-lg">
-              Contact & Booking
-            </p>
-            <div className="flex flex-col gap-2.5 text-sm md:gap-3">
-              <a
-                href={TEL_URL}
-                className="group flex items-center gap-2.5 text-sand/80 transition-colors hover:text-gold md:gap-3"
+        {/* 2–3. Your Stay + Plan Your Visit — side by side on mobile; own columns from tablet */}
+        <div className="grid grid-cols-2 gap-x-5 border-t border-white/10 pt-6 md:contents md:border-0 md:pt-0">
+          {footerSections.map((section, index) => (
+            <nav
+              key={section.title}
+              aria-labelledby={`footer-${index}`}
+              className={`flex flex-col gap-3 md:gap-4 ${
+                index === 0 ? "border-r border-white/10 pr-4 md:border-r-0 md:pr-0" : ""
+              }`}
+            >
+              <p
+                id={`footer-${index}`}
+                className="font-serif text-base font-medium text-gold md:text-lg"
               >
-                <Phone className="h-4 w-4 shrink-0 text-gold transition-colors group-hover:text-gold-hover" />
-                <span className="min-w-0 break-words">Call: {DISPLAY_PHONE}</span>
-              </a>
+                {section.title}
+              </p>
+              <ul className="flex flex-col gap-2.5 text-sm md:gap-3">
+                {section.links.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="text-sand/80 transition-colors hover:text-gold"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ))}
+        </div>
+
+        {/* 4. Contact & Booking — full width on mobile */}
+        <div className="flex flex-col gap-3 border-t border-white/10 pt-6 md:gap-4 md:border-0 md:pt-0">
+          <p className="font-serif text-base font-medium text-gold md:text-lg">
+            Contact & Booking
+          </p>
+          <div className="flex flex-col gap-2.5 text-sm md:gap-3">
+            <a
+              href={TEL_URL}
+              className="group flex items-center gap-2.5 text-sand/80 transition-colors hover:text-gold md:gap-3"
+            >
+              <Phone className="h-4 w-4 shrink-0 text-gold transition-colors group-hover:text-gold-hover" />
+              <span className="min-w-0 break-words">Call: {DISPLAY_PHONE}</span>
+            </a>
+            <a
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-center gap-2.5 text-sand/80 transition-colors hover:text-gold md:gap-3"
+            >
+              <MessageCircle className="h-4 w-4 shrink-0 text-gold transition-colors group-hover:text-gold-hover" />
+              <span className="min-w-0 break-words">WhatsApp: {DISPLAY_PHONE}</span>
+            </a>
+            {INSTAGRAM_URL ? (
               <a
-                href={WHATSAPP_URL}
+                href={INSTAGRAM_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group flex items-center gap-2.5 text-sand/80 transition-colors hover:text-gold md:gap-3"
               >
-                <MessageCircle className="h-4 w-4 shrink-0 text-gold transition-colors group-hover:text-gold-hover" />
-                <span className="min-w-0 break-words">WhatsApp: {DISPLAY_PHONE}</span>
+                <InstagramIcon className="h-4 w-4 shrink-0 text-gold transition-colors group-hover:text-gold-hover" />
+                <span>Instagram</span>
               </a>
-              {INSTAGRAM_URL ? (
-                <a
-                  href={INSTAGRAM_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center gap-2.5 text-sand/80 transition-colors hover:text-gold md:gap-3"
-                >
-                  <InstagramIcon className="h-4 w-4 shrink-0 text-gold transition-colors group-hover:text-gold-hover" />
-                  <span>Instagram</span>
-                </a>
-              ) : (
-                <span
-                  className="flex items-center gap-2.5 text-sand/50 md:gap-3"
-                  title="Coming soon"
-                >
-                  <InstagramIcon className="h-4 w-4 shrink-0 text-gold/50" />
-                  <span>Instagram</span>
-                </span>
-              )}
-            </div>
+            ) : (
+              <span
+                className="flex items-center gap-2.5 text-sand/50 md:gap-3"
+                title="Coming soon"
+              >
+                <InstagramIcon className="h-4 w-4 shrink-0 text-gold/50" />
+                <span>Instagram</span>
+              </span>
+            )}
+            <Link
+              href={FOOTER_CONTACT_PATH}
+              className="mt-1 w-fit font-medium text-gold transition-colors hover:text-gold-hover"
+            >
+              Booking enquiry &rarr;
+            </Link>
           </div>
         </div>
       </Container>
@@ -130,6 +152,17 @@ export function SiteFooter() {
       {/* Bottom Bar */}
       <div className="border-t border-white/10 bg-black/20 py-4 md:py-6">
         <Container className="max-md:pr-[4.75rem]">
+          <nav aria-label="Legal" className="mb-2 flex justify-center gap-4 text-xs">
+            {legalNav.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-sand/60 transition-colors hover:text-gold"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
           <p className="text-center text-xs leading-relaxed text-balance text-sand/40">
             © {new Date().getFullYear()} {BUSINESS_NAME}. All rights reserved.
           </p>
