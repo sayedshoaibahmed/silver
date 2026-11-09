@@ -39,8 +39,11 @@ export function HeroSection() {
       <Container className="relative z-10 flex min-h-[75vh] md:min-h-[85vh] flex-col items-center justify-center py-20 text-center">
         <Stack gap="lg" className="items-center max-w-4xl">
           <div className="hero-copy hero-copy-delay-1">
-            <Heading as="h1" size="display" className="text-sand drop-shadow-md">
+            <p className="mb-3 text-sm font-medium uppercase tracking-widest text-sand/90 drop-shadow-md">
               {BUSINESS_NAME}
+            </p>
+            <Heading as="h1" size="display" className="text-sand drop-shadow-md">
+              Beachside Homestay in Murudeshwar
             </Heading>
           </div>
 

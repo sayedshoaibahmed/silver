@@ -17,8 +17,8 @@ export type PageSeoCopy = {
 export const PAGE_SEO = {
   home: {
     title: "Homestay in Murudeshwar",
-    absoluteTitle: `${BUSINESS_NAME} | Homestay in Murudeshwar`,
-    description: `${BUSINESS_NAME} — one Deluxe AC Room in Murudeshwar, Karnataka. Priced by occupancy (2–8 guests). Book on WhatsApp at ${DISPLAY_PHONE}.`,
+    absoluteTitle: `Beachside Homestay in Murudeshwar | ${BUSINESS_NAME}`,
+    description: `Beachside homestay in Murudeshwar, Karnataka, next to the beach. Rated 4.9 by 43 Google guests. AC room for 2–8 guests. Book on WhatsApp at ${DISPLAY_PHONE}.`,
     path: "/",
   },
   rooms: {
